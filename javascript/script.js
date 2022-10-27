@@ -15,27 +15,63 @@ console.log("Selamat Pagi")
 //console.log(mahasiswa.hobi[0]) // output ngoding
 
 
-let txtnpm = document.getElementById("npm")
-let txtnama = document.getElementById("nama")
-let listMhs = document.getElementById("listmahasiswa")
+console.log("mulai")
+
+let txtNpm = document.getElementById("npm")
+let txtNama = document.getElementById("nama")
+let listMhs = document.getElementById("listMahasiswa")
+let tblMhs = document.getElementById("tblMahasiswa")
+
 let data = []
+tampil()
 
-function simpan(){
+
+function simpan() {
     console.log("Button simpan ditekan")
-    console.log(txtnpm.value)
-    console.log(txtnama.value)
+    console.log(txtNpm.value)
+    console.log(txtNama)
 
- data.push(
-     {"npm": txtnpm.value ,
-      "nama" : txtnama.value}
- )
- tampil()
+    // simpan object ke array data
+  
+    if(localStorage.getItem("lsMahasiwa")==null){
+        //jika localstroge dgn key 
+        data.push({
+            "npm": txtNpm.value,
+            "nama": txtNama.value
+        })
+        localStorage.setItem("lsMahasiswa", JSON.stringify(data))
+    }else{
+        //jika local stroge dgn key ls mahasiswa sdh ada/ sdh di simpan sebelumnya
+        //ambil dulu data di local stroge dgn key lsmahasiswa
+        //push data batru kedalam array
+        //simpan data ke dalam local storage 
+    let datals = JSON.parse(localStorage.getItem("lsMahasiswa"))
+    console.log(datals)
+    //push data baru
+    datals.push({ "npm": txtNpm.value,"nama": txtNama.value})
+   
+    localStorage.setItem("lsMahasiswa", JSON.stringify(datals))
+    }
+
+    // panggil function tampil()
+    tampil()
 }
-function tampil(){
+
+function tampil() {
     listMhs.innerHTML = ""
-    //gunakan forEach
+    // gunakan forEach
     data.forEach(listData)
+
+    let dataTampil = JSON.parse(localStorage.getItem ("lsMahasiswa"))
+    dataTampil.forEach(listData)
 }
-function listData(item, index ) {
-    listMhs.innerHTML += item.npm+ "-" + item.nama
+
+function listData(item, index) {
+    listMhs.innerHTML += "<li>" + item.npm + "-" + item.nama + "</li>"
+
+    tblMhs.innerHTML += `<tr>`
+    tblMhs.innerHTML += `<td>${item.nama}/</td>`
+    tblMhs.innerHTML += `<td>${item.npm}</td>`
+    tblMhs.innerHTML += `<tr>`
+
 }
