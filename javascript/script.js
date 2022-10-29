@@ -32,25 +32,28 @@ function simpan() {
     console.log(txtNama)
 
     // simpan object ke array data
-  
-    if(localStorage.getItem("lsMahasiwa")==null){
+
+    if (localStorage.getItem("lsMahasiswa") == null) {
         //jika localstroge dgn key 
         data.push({
-            "npm": txtNpm.value,
+            "npm": number.Npm.value,
             "nama": txtNama.value
         })
         localStorage.setItem("lsMahasiswa", JSON.stringify(data))
-    }else{
+    } else {
         //jika local stroge dgn key ls mahasiswa sdh ada/ sdh di simpan sebelumnya
         //ambil dulu data di local stroge dgn key lsmahasiswa
         //push data batru kedalam array
         //simpan data ke dalam local storage 
-    let datals = JSON.parse(localStorage.getItem("lsMahasiswa"))
-    console.log(datals)
-    //push data baru
-    datals.push({ "npm": txtNpm.value,"nama": txtNama.value})
-   
-    localStorage.setItem("lsMahasiswa", JSON.stringify(datals))
+        let datals = JSON.parse(localStorage.getItem("lsMahasiswa"))
+        console.log(datals)
+        //push data baru
+        datals.push({
+            "npm": txtNpm.value,
+            "nama": txtNama.value
+        })
+
+        localStorage.setItem("lsMahasiswa", JSON.stringify(datals))
     }
 
     // panggil function tampil()
@@ -61,17 +64,19 @@ function tampil() {
     listMhs.innerHTML = ""
     // gunakan forEach
     data.forEach(listData)
+    // clear elemen tblMahasiswa
 
-    let dataTampil = JSON.parse(localStorage.getItem ("lsMahasiswa"))
+    tblMhs.innerHTML = ""
+
+    // ambil data local storage
+    let dataTampil = JSON.parse(localStorage.getItem("lsMahasiswa"))
     dataTampil.forEach(listData)
 }
 
 function listData(item, index) {
-    listMhs.innerHTML += "<li>" + item.npm + "-" + item.nama + "</li>"
+    // inner html elemen ul id =" list mahasiswa"pd index html
 
-    tblMhs.innerHTML += `<tr>`
-    tblMhs.innerHTML += `<td>${item.nama}/</td>`
-    tblMhs.innerHTML += `<td>${item.npm}</td>`
-    tblMhs.innerHTML += `<tr>`
+    listMhs.innerHTML += "<li class = 'list-group-item'>" + item.npm + "-" + item.nama + "</li>"
 
+    tblMhs.innerHTML += `<tr><td>${item.nama}</td><td>${item.npm}</td></tr>`
 }
